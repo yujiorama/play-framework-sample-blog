@@ -1,14 +1,14 @@
 *{ Display a post in one of these modes: 'full', 'home' or 'teaser' }*
 
-<div class="post ${_as == 'teaser' ? 'teaser' : ''}">
-	<h2 class="title">
-		<a href="#">${_post.title}</a>
+<div class="post-post ${_as == 'teaser' ? 'teaser' : ''}">
+	<h2 class="post-title">
+		<a href="@{Application.show(_post.id)}">${_post.title}</a>
 	</h2>
-	<div class="meta-data">
-		<span class="author">by ${_post.author.fullname}</span>
-		<span class="date">${_post.postedAt.format('MMM dd yy')}</span>
+	<div class="post-meta-data">
+		<span class="post-author">by ${_post.author.fullname}</span>
+		<span class="post-date">${_post.postedAt.format('MMM dd yy')}</span>
         #{if _as != 'full'}
-		<span class="comments">
+		<span class="post-comments">
 			&nbsp;|&nbsp;
 			${_post.comments.size() ?: 'no'}
 			comment${_post.comments.size().pluralize()}
@@ -19,7 +19,7 @@
         #{/if}
 	</div>
     #{if _as != 'teaser'}
-	<div class="content">
+	<div class="post-content">
 		${_post.content.nl2br()}
 	</div>
     #{/if}
