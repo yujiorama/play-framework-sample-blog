@@ -16,17 +16,26 @@ object Application extends Controller {
   }
   
   def index {
-    val frontposts = Post.find(
-      "order by postedAt desc"
-    ).first
+    val frontposts = Post.find("order by postedAt desc").first
     val frontpost = frontposts match {
       case Some(post: Post) => post
       case None => None
     }
-    val olderposts = Post.find(
-      "order by postedAt desc"
-    ).from(1).fetch(items_per_page)
+    val olderposts = Post.find("order by postedAt desc").from(1).fetch(items_per_page)
 
     render(frontpost, olderposts)
+  }
+  
+  // def show(id: Long) {
+  //   val found = Post.findById(id)
+  //   found match {
+  //     case Some(post: Post) => render(post)
+  //     case None => None
+  //   }
+  // }
+
+  def show(id: Long) {
+	val post = Post.findById(id).get
+	render(post)
   }
 }
