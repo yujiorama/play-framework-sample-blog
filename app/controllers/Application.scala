@@ -3,6 +3,7 @@ package controllers
 import play._
 import play.mvc._
 import play.data.validation._
+import play.libs._
 
 import models.Post
 
@@ -56,5 +57,10 @@ object Application extends Controller {
     }
 
     show(id)
+  }
+  
+  def captcha() {
+    val captcha = Images.captcha()
+    renderBinary(captcha)
   }
 }
