@@ -41,7 +41,10 @@ object Application extends Controller {
       case Some(found: Post) => found
       case None => null
     }
-    render(post)
+
+    val randomId = Codec.UUID()
+    render(post, randomId)
+
   }
   
   def postComment(id: Long, @Required author: String, @Required content: String) {
@@ -59,8 +62,10 @@ object Application extends Controller {
     show(id)
   }
   
-  def captcha() {
+  def captcha(id: String) {
     val captcha = Images.captcha()
+    val code = captcha.getText("#E4EAFD")
+    play.cache.Cache.set(id, code, "10mn")
     renderBinary(captcha)
   }
 }
