@@ -2,6 +2,22 @@
 
 #{set title:post.title /}
 
+#{set 'moreScripts'}
+<script src="@{'/public/javascripts/jquery.tools.min.js'}" type="text/javascript" ></script>
+<script type="text/javascript">
+$(function() {
+  $('form').click(function() {
+    $('form').expose({api: true}).load();
+  });
+
+  if ($('form .error').size()) {
+    $('form').expose({api: true, loadSpeed: 0}).load();
+    $('form input').get(0).focus();
+  }
+});
+</script>
+#{/set}
+
 <ul id="pagination">
   #{if post.previous()}
   <li id="previous">
@@ -19,17 +35,28 @@
   #{/if}
 </ul>
 
+#{if flash.success}
+<p class="success">
+  ${flash.success}
+</p>
+#{/if}
+
 #{display post:post, as:'full' /}
 
 <h3>Post a comment</h3>
 #{form @Application.postComment(post.id)}
+#{ifErrors}
+<p class="error">
+  All fields are required!
+</p>
+#{/ifErrors}
 <p>
   <label for="author">Your name: </label>
-  <input type="text" name="author" id="author" />
+  <input type="text" name="author" id="author" value="${params.author}" />
 </p>
 <p>
   <label for="content">Your message:</label>
-  <textarea name="content" id="content"></textarea>
+  <textarea name="content" id="content">${params.content}</textarea>
 </p>
 <p>
   <input type="submit" value="Post your comment" />
