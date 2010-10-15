@@ -9,6 +9,8 @@ GET     /posts/{id}                             Application.show
 
 POST    /posts/{id}/comments                    Application.postComment
 
+GET     /captcha                                Application.captcha
+
 # Map static resources from the /app/public folder to the /public path
 GET     /public/                                staticDir:public
 
