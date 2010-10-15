@@ -35,7 +35,19 @@ object Application extends Controller {
   // }
 
   def show(id: Long) {
-	val post = Post.find("byId", id).first.get
+	val post = Post.findById(id) match {
+      case Some(found: Post) => found
+      case None => null
+    }
     render(post)
+  }
+  
+  def postComment(id: Long, author: String, content: String) {
+    Post.findById(id) match {
+      case Some(post: Post) => post.addComment(author, content)
+      case None => None
+    }
+
+    show(id)
   }
 }
