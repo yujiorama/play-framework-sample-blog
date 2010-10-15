@@ -59,6 +59,13 @@ $(function() {
   <textarea name="content" id="content">${params.content}</textarea>
 </p>
 <p>
+  <label for="code">Please type the code below: </label>
+  <img src="@{Application.captcha(ramdomId)}" />
+  <br />
+  <input type="text" name="code" id="code" size="18" value="" />
+  <input type="hidden" name="randomId" value="${randomId}" />
+</p>
+<p>
   <input type="submit" value="Post your comment" />
 </p>
 #{/form}
