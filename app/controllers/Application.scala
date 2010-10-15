@@ -35,7 +35,7 @@ object Application extends Controller {
   // }
 
   def show(id: Long) {
-	val post = Post.findById(id).get
-	render(post)
+	val post = Post.find("byId", id).first.get
+    render(post)
   }
 }

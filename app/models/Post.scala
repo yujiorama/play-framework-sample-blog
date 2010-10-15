@@ -23,12 +23,18 @@ class Post(
     comments.add(newComment)
   }
   
-  def next(): Option[Post] = {
-    Post.find("postedAt < ? order by postedAt desc", this.postedAt).first
+  def next(): Post = {
+    Post.find("postedAt < ? order by postedAt desc", this.postedAt).first match {
+      case Some(ok: Post) => ok
+      case None => null
+    }
   }
   
-  def previous(): Option[Post] = {
-    Post.find("postedAt > ? order by postedAt asc", this.postedAt).first
+  def previous(): Post = {
+    Post.find("postedAt > ? order by postedAt asc", this.postedAt).first match {
+      case Some(ok: Post) => ok
+      case None => null
+    }
   }
   
   def this() = this(null, null, null)
