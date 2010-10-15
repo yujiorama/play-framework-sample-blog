@@ -2,6 +2,7 @@ package controllers
 
 import play._
 import play.mvc._
+import play.data.validation._
 
 import models.Post
 
@@ -42,9 +43,15 @@ object Application extends Controller {
     render(post)
   }
   
-  def postComment(id: Long, author: String, content: String) {
+  def postComment(id: Long, @Required author: String, @Required content: String) {
     Post.findById(id) match {
-      case Some(post: Post) => post.addComment(author, content)
+      case Some(post: Post) => {
+        if (Validation.hasErrors()) {
+          renderTemplate("Application/show.html", post)
+        }
+        post.addComment(author, content)
+        flash.success("Thanks for postings, %s", author)
+      }
       case None => None
     }
 
