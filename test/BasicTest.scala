@@ -127,4 +127,32 @@ class BasicTest extends UnitTest {
       case None => fail("find the most recent posts")
     }
   }
+  
+  @Test
+  def postPaginationTest() {
+    Fixtures.load("data.yml")
+    
+    val firstpost = Post.find("order by postedAt desc").first
+    firstpost match {
+      case Some(first: Post) => {
+        val second = first.next()
+        assertNotNull(second)
+        assertEquals(true, first.postedAt.compareTo(second.get.postedAt) > 0)
+        val third = second.get.next()
+        assertEquals(false, None == third)
+        assertEquals(true, second.get.postedAt.compareTo(third.get.postedAt) > 0)
+        assertEquals(true, first.postedAt.compareTo(third.get.postedAt) > 0)
+        val second2 = third.get.previous()
+        assertEquals(false, None == second2)
+        assertEquals(second, second2)
+        val first2 = second.get.previous()
+        assertEquals(false, None == first2)
+        assertEquals(first, first2.get)
+        
+        assertEquals(None, first.previous())
+        assertEquals(None, third.get.next())
+      }
+      case None => fail("empty data")
+    }
+  }
 }
