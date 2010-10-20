@@ -1,6 +1,7 @@
 package controllers
 
 import play._
+import play.cache.Cache
 import play.mvc._
 import play.data.validation._
 import play.libs._
@@ -12,7 +13,7 @@ object Application extends Controller {
   val items_per_page = 10
   
   @Before
-  def addDefaultRenderArgs() {
+  def addDefaultRenderArgs {
     renderArgs.put("blogTitle", Play.configuration.getProperty("blog.title"))
     renderArgs.put("blogBaseline", Play.configuration.getProperty("blog.baseline"))
   }
@@ -28,14 +29,6 @@ object Application extends Controller {
     render(frontpost, olderposts)
   }
   
-  // def show(id: Long) {
-  //   val found = Post.findById(id)
-  //   found match {
-  //     case Some(post: Post) => render(post)
-  //     case None => None
-  //   }
-  // }
-
   def show(id: Long) {
 	val post = Post.findById(id) match {
       case Some(found: Post) => found
@@ -47,14 +40,24 @@ object Application extends Controller {
 
   }
   
-  def postComment(id: Long, @Required author: String, @Required content: String) {
+  def postComment(
+    id: Long,
+    @Required (message="Author is required") author: String,
+    @Required (message="A message is required") content: String,
+    @Required (message="Please type the code") code: String,
+    randomId: String
+  ) {
     Post.findById(id) match {
       case Some(post: Post) => {
+        Validation.current.equals(code, Cache.get(randomId).get)
+        .message("Invalid code. Please type it again")
         if (Validation.hasErrors()) {
-          renderTemplate("Application/show.html", post)
+          renderTemplate("Application/show.html", post, randomId)
         }
-        post.addComment(author, content)
-        flash.success("Thanks for postings, %s", author)
+        else {
+          post.addComment(author, content)
+          flash.success("Thanks for postings, %s", author)
+        }
       }
       case None => None
     }
@@ -65,7 +68,7 @@ object Application extends Controller {
   def captcha(id: String) {
     val captcha = Images.captcha()
     val code = captcha.getText("#E4EAFD")
-    play.cache.Cache.set(id, code, "10mn")
+    Cache.set(id, code, "10min")
     renderBinary(captcha)
   }
 }

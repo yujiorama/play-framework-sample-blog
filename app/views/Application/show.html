@@ -47,7 +47,7 @@ $(function() {
 #{form @Application.postComment(post.id)}
 #{ifErrors}
 <p class="error">
-  All fields are required!
+  ${errors[0]}
 </p>
 #{/ifErrors}
 <p>
@@ -60,7 +60,7 @@ $(function() {
 </p>
 <p>
   <label for="code">Please type the code below: </label>
-  <img src="@{Application.captcha(ramdomId)}" />
+  <img src="@{Application.captcha(randomId)}" />
   <br />
   <input type="text" name="code" id="code" size="18" value="" />
   <input type="hidden" name="randomId" value="${randomId}" />
