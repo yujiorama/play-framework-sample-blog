@@ -158,6 +158,10 @@ class BasicTest extends UnitTest {
   
   @Test
   def testTags() {
+    val tag = Tag.findOrCreateByName("A")
+    assertNotNull(tag)
+    assertEquals(1, Tag.find("byName", "A").fetch.size)
+    
     val bob = new User("bob@example.com", "secret", "Bob").save()
     val bobspost1 = new Post(bob, "first post", "hello world").save()
     val bobspost2 = new Post(bob, "Hop", "hello world").save()
