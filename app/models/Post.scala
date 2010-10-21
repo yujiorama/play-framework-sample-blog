@@ -47,7 +47,7 @@ class Post(
 }
 
 object Post extends QueryOn[Post] {
-  def findTaggedWith(name: String): List[Tag] = {
-    new ArrayList[Tag]()
+  def findTaggedWith(name: String): List[Post] = {
+    new ArrayList[Post]()
   }
 }
