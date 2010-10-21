@@ -40,4 +40,8 @@ class Post(
   def this() = this(null, null, null)
 }
 
-object Post extends QueryOn[Post]
+object Post extends QueryOn[Post] {
+  def findTaggedWith(name: String): List[Tag] = {
+    None
+  }
+}
