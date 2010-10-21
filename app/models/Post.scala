@@ -47,7 +47,15 @@ class Post(
 }
 
 object Post extends QueryOn[Post] {
-  def findTaggedWith(name: String): scala.List[Post] = {
-    this.find("select p from Post p join p.tags as t where t.name = ?", name).all
+  def findTaggedWith(tags: String*): scala.List[Post] = {
+//    this.find("select p from Post p join p.tags as t where t.name = ?", name).all
+println(tags)
+    val found = this.find(
+      "select distinct p from Post p join p.tags as t where t.name in (:tags) group by p.id, p.author, p.title, p.content, p.postedAt having count(t.id) = :size"
+    )
+    .bind("tags", tags.toArray)
+    .bind("size", tags.length)
+    .fetch()
+    asScala.asList(found)
   }
 }
