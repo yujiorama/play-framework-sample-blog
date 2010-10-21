@@ -16,7 +16,7 @@ class Tag(
 
 
 object Tag extends QueryOn[Tag] {
-  def findOrCreateByName(name: String): Tag {
+  def findOrCreateByName(name: String): Tag = {
     new Tag(name)
   }
 }
