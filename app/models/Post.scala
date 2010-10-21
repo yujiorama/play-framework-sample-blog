@@ -37,6 +37,10 @@ class Post(
     }
   }
   
+  def tagItWith(name: String): Post = {
+    this
+  }
+  
   def this() = this(null, null, null)
 }
 
