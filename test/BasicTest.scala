@@ -155,4 +155,13 @@ class BasicTest extends UnitTest {
       case None => fail("empty data")
     }
   }
+  
+  def testTags() {
+    val bob = new User("bob@example.com", "secret", "Bob").save()
+    val bobspost1 = new Post(bob, "first post", "hello world").save()
+    val bobspost2 = new Post(bob, "Hop", "hello world").save()
+
+    assertEquals(0, Post.findTaggedWith("Red").size())
+    
+  }
 }
