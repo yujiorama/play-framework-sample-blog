@@ -187,6 +187,6 @@ class BasicTest extends UnitTest {
     
     val cloud = Tag.getCloud
     assertNotNull(cloud)
-    assertEquals("[{tag=Blue, pound=1], [tag=Green, pound=1], [tag=Red, pound=2]}", cloud.toString)
+    assertEquals("List(Map(tag -> Blue, pound -> 1), Map(tag -> Green, pound -> 1), Map(tag -> Red, pound -> 2))", cloud.toString)
   }
 }
