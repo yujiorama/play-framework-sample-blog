@@ -1,6 +1,6 @@
 package models
 
-import play.db.jpa.{Entity,Model,QueryOn}
+import play.db.jpa._
 
 @Entity
 class Tag(
@@ -17,6 +17,11 @@ class Tag(
 
 object Tag extends QueryOn[Tag] {
   def findOrCreateByName(name: String): Tag = {
-    new Tag(name)
+    Tag.find("name", name).first match {
+      case Some(found: Tag) => found
+      case None => {
+        new Tag(name).save()
+      }
+    }
   }
 }
