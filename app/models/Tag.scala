@@ -1,6 +1,6 @@
 package models
 
-import play.db.jpa.{Entity,Model}
+import play.db.jpa.{Entity,Model,QueryOn}
 
 @Entity
 class Tag(
