@@ -165,7 +165,7 @@ class BasicTest extends UnitTest {
     assertEquals(0, Post.findTaggedWith("Red").size)
     
     bobspost1.tagItWith("Red").tagItWith("Blue").save()
-    bobspost2.tagItWIth("Red").tagItWith("Green").save()
+    bobspost2.tagItWith("Red").tagItWith("Green").save()
     
     assertEquals(2, Post.findTaggedWith("Red").size)
     assertEquals(1, Post.findTaggedWith("Blue").size)
