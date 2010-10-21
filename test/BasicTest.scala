@@ -165,7 +165,6 @@ class BasicTest extends UnitTest {
     assertEquals(2, Tag.count)
   }
 
-  
   @Test
   def testPostWithTags() {
     val bob = new User("bob@example.com", "secret", "Bob").save()
@@ -185,5 +184,9 @@ class BasicTest extends UnitTest {
     assertEquals(1, Post.findTaggedWith("Red", "Green").size)
     assertEquals(0, Post.findTaggedWith("Red", "Green", "Blue").size)
     assertEquals(0, Post.findTaggedWith("Green", "Blue").size)
+    
+    val cloud = Tag.getCloud
+    assertNotNull(cloud)
+    assertEquals("[{tag=Blue, pound=1], [tag=Green, pound=1], [tag=Red, pound=2]}", cloud.toString)
   }
 }
