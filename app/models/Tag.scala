@@ -6,9 +6,17 @@ import play.db.jpa.{Entity,Model}
 class Tag(
   var name: String
 ) extends Model with Ordered[Tag] {
-  def this() = this("")
   
   override def toString() = name
   
   def compare(other: Tag) = name.compareTo(other.name)
+
+  def this() = this("")
+}
+
+
+object Tag extends QueryOn[Tag] {
+  def findOrCreateByName(name: String): Tag {
+    new Tag(name)
+  }
 }
