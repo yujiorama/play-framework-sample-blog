@@ -162,7 +162,13 @@ class BasicTest extends UnitTest {
     val bobspost1 = new Post(bob, "first post", "hello world").save()
     val bobspost2 = new Post(bob, "Hop", "hello world").save()
 
-    assertEquals(0, Post.findTaggedWith("Red").size())
+    assertEquals(0, Post.findTaggedWith("Red").size)
     
+    bobspost1.tagItWith("Red").tagItWith("Blue").saev()
+    bobspost2.tagItWIth("Red").tagItWith("Green").save()
+    
+    assertEquals(2, Post.findTaggedWith("Red").size)
+    assertEquals(1, Post.findTaggedWith("Blue").size)
+    assertEquals(1, Post.findTaggedWith("Green").size)
   }
 }
