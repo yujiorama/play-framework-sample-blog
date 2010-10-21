@@ -47,7 +47,7 @@ class Post(
 }
 
 object Post extends QueryOn[Post] {
-  def findTaggedWith(name: String): List[Post] = {
-    new ArrayList[Post]()
+  def findTaggedWith(name: String): scala.List[Post] = {
+    this.find("select p from Post p join p.tags as t where t.name = ?", name).all
   }
 }
