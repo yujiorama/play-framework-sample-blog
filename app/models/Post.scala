@@ -1,8 +1,6 @@
 package models
 
-import java.util.ArrayList
-import java.util.Date
-import java.util.List
+import java.util.{Date,List,ArrayList,Set,TreeSet}
 
 import play.db.jpa._
 
@@ -23,6 +21,14 @@ class Post(
     comments.add(newComment)
   }
   
+  @ManyToMany(cascade=Array(CascadeType.PERSIST))
+  var tags: Set[Tag] = new TreeSet[Tag]
+
+  def tagItWith(name: String): Post = {
+    tags.add(Tag.findOrCreateByName(name))
+    this
+  }
+  
   def next(): Post = {
     Post.find("postedAt < ? order by postedAt desc", this.postedAt).first match {
       case Some(ok: Post) => ok
@@ -35,10 +41,6 @@ class Post(
       case Some(ok: Post) => ok
       case None => null
     }
-  }
-  
-  def tagItWith(name: String): Post = {
-    this
   }
   
   def this() = this(null, null, null)
